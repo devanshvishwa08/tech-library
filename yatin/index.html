@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community Tech Library — Don't Trash It, Share It</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&family=JetBrains+Mono:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --paper: #E7E4D8;
+            --paper-dim: #DCD8C9;
+            --ink: #1B2420;
+            --ink-soft: #465049;
+            --pcb: #17352A;
+            --pcb-deep: #0F241C;
+            --solder: #3F8F63;
+            --solder-bright: #57B682;
+            --amber: #E3A33B;
+            --amber-deep: #C4841F;
+            --copper: #A85A2E;
+            --copper-bright: #C06D3B;
+            --line: rgba(27, 36, 32, 0.16);
+            --line-on-dark: rgba(231, 228, 216, 0.22);
+            --radius: 3px;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            background: var(--paper);
+            color: var(--ink);
+            font-family: 'Source Serif 4', serif;
+            font-size: 17px;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        .display {
+            font-family: 'Space Grotesk', sans-serif;
+            letter-spacing: -0.01em;
+            margin: 0;
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: 0.03em;
+        }
+
+        a {
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        .wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* ---------- NAV ---------- */
+        header.site {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(231, 228, 216, 0.92);
+            backdrop-filter: blur(6px);
+            border-bottom: 1px solid var(--line);
+        }
+
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 28px;
+            max-width: 1120px;
+            margin: 0 auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-mark {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: var(--pcb);
+            color: var(--paper);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 12px;
+            border: 1px solid var(--pcb);
+        }
+
+        .brand-name {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--ink-soft);
+            padding: 4px 0;
+            border-bottom: 1px solid transparent;
+            transition: border-color .2s, color .2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--ink);
+            border-color: var(--copper);
+        }
+
+        .nav-cta {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background: var(--pcb);
+            color: var(--paper);
+            padding: 9px 16px;
+            border-radius: 2px;
+            text-decoration: none;
+            border: 1px solid var(--pcb);
+        }
+
+        .nav-cta:hover {
+            background: var(--solder);
+            border-color: var(--solder);
+        }
+
+        @media (max-width:760px) {
+            .nav-links {
+                display: none;
+            }
+        }
+
+        /* ---------- HERO ---------- */
+        .hero {
+            position: relative;
+            background:
+                radial-gradient(circle at 82% 18%, rgba(63, 143, 99, 0.16), transparent 45%),
+                var(--paper);
+            padding: 88px 0 70px;
+            overflow: hidden;
+            border-bottom: 1px solid var(--line);
+        }
+
+        .hero .wrap {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 56px;
+            align-items: center;
+        }
+
+        @media (max-width:900px) {
+            .hero .wrap {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                padding: 56px 0 48px;
+            }
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--copper-bright);
+            margin-bottom: 18px;
+        }
+
+        .eyebrow::before {
+            content: '';
+            width: 7px;
+            height: 7px;
+            background: var(--solder);
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .hero h1 {
+            font-size: clamp(34px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.04;
+            color: var(--pcb-deep);
+        }
+
+        .hero h1 em {
+            font-style: normal;
+            color: var(--copper);
+            text-decoration: underline;
+            text-decoration-color: var(--amber);
+            text-decoration-thickness: 4px;
+            text-underline-offset: 6px;
+        }
+
+        .hero p.lede {
+            margin-top: 22px;
+            font-size: 18px;
+            color: var(--ink-soft);
+            max-width: 46ch;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            margin-top: 34px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 14px 22px;
+            border-radius: 2px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: transform .15s ease, background .2s ease, box-shadow .2s ease;
+        }
+
+        .btn-primary {
+            background: var(--copper);
+            color: #fff;
+            border: 1px solid var(--copper);
+        }
+
+        .btn-primary:hover {
+            background: var(--copper-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 0 0 rgba(27, 36, 32, 0.12);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--pcb-deep);
+            border: 1px solid var(--ink);
+        }
+
+        .btn-ghost:hover {
+            background: var(--pcb-deep);
+            color: var(--paper);
+            transform: translateY(-2px);
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 26px;
+            margin-top: 44px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat .num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--pcb-deep);
+        }
+
+        .hero-stat .lab {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: var(--ink-soft);
+            letter-spacing: 0.06em;
+            max-width: 16ch;
+        }
+
+        /* --- signature: hanging inspection tag --- */
+        .tag-hero {
+            position: relative;
+            justify-self: center;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        .tag-string {
+            width: 2px;
+            height: 38px;
+            background: var(--ink-soft);
+            margin: 0 auto;
+        }
+
+        .tag-hole {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--paper);
+            border: 2px solid var(--ink);
+            margin: 0 auto -1px;
+        }
+
+        .tag-card {
+            background: var(--pcb-deep);
+            color: var(--paper);
+            border: 1px solid var(--pcb);
+            border-radius: 6px;
+            padding: 26px 24px 24px;
+            transform: rotate(3deg);
+            box-shadow: 8px 12px 0 rgba(27, 36, 32, 0.14);
+            animation: sway 6s ease-in-out infinite;
+            transform-origin: top center;
+        }
+
+        @keyframes sway {
+
+            0%,
+            100% {
+                transform: rotate(3deg);
+            }
+
+            50% {
+                transform: rotate(-2.5deg);
+            }
+        }
+
+        .tag-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--solder-bright);
+            margin-bottom: 14px;
+        }
+
+        .grade-stamp {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            border: 3px solid var(--amber);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 6px auto 16px;
+            transform: rotate(-8deg);
+            color: var(--amber);
+        }
+
+        .grade-stamp .letter {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 34px;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .grade-stamp .sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 8px;
+            letter-spacing: 0.1em;
+            margin-top: 2px;
+        }
+
+        .tag-card h4 {
+            font-size: 15px;
+            text-align: center;
+            color: var(--paper);
+            font-weight: 600;
+        }
+
+        .tag-card p {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10.5px;
+            color: rgba(231, 228, 216, 0.6);
+            text-align: center;
+            margin-top: 8px;
+            line-height: 1.7;
+        }
+
+        .tag-perf {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px dashed var(--line-on-dark);
+        }
+
+        .tag-perf span {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 9px;
+            color: rgba(231, 228, 216, 0.45);
+            text-transform: uppercase;
+        }
+
+        /* ---------- SECTION LABELS ---------- */
+        .section-head {
+            max-width: 640px;
+            margin-bottom: 52px;
+        }
+
+        .section-head .kicker {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--copper);
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .section-head h2 {
+            font-size: clamp(26px, 3.4vw, 38px);
+            font-weight: 700;
+        }
+
+        .section-head p {
+            margin-top: 14px;
+            color: var(--ink-soft);
+            font-size: 16px;
+        }
+
+        /* ---------- HOW IT WORKS ---------- */
+        .how {
+            background: var(--pcb-deep);
+            color: var(--paper);
+            padding: 96px 0 100px;
+            position: relative;
+        }
+
+        .how .section-head .kicker {
+            color: var(--amber);
+        }
+
+        .how .section-head h2 {
+            color: var(--paper);
+        }
+
+        .how .section-head p {
+            color: rgba(231, 228, 216, 0.68);
+        }
+
+        .conveyor {
+            position: relative;
+            border-left: 1px dashed var(--line-on-dark);
+            margin-left: 18px;
+            padding-left: 44px;
+        }
+
+        .step {
+            position: relative;
+            padding-bottom: 52px;
+        }
+
+        .step:last-child {
+            padding-bottom: 0;
+        }
+
+        .step-stamp {
+            position: absolute;
+            left: -63px;
+            top: 0;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: var(--pcb-deep);
+            border: 2px solid var(--solder-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--solder-bright);
+        }
+
+        .step-body {
+            background: rgba(231, 228, 216, 0.04);
+            border: 1px solid var(--line-on-dark);
+            border-radius: 4px;
+            padding: 22px 26px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 16px;
+            align-items: start;
+        }
+
+        .step-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--amber);
+            border: 1px solid var(--amber-deep);
+            padding: 4px 9px;
+            border-radius: 20px;
+            white-space: nowrap;
+        }
+
+        .step h3 {
+            font-size: 19px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--paper);
+        }
+
+        .step p {
+            font-size: 14.5px;
+            color: rgba(231, 228, 216, 0.72);
+            margin: 0;
+            max-width: 60ch;
+        }
+
+        @media (max-width:640px) {
+            .step-body {
+                grid-template-columns: 1fr;
+            }
+
+            .step-tag {
+                justify-self: start;
+            }
+        }
+
+        /* ---------- GET INVOLVED ---------- */
+        .involve {
+            padding: 100px 0 110px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 26px;
+        }
+
+        @media (max-width:880px) {
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .card {
+            position: relative;
+            background: var(--paper-dim);
+            border: 1px solid var(--line);
+            border-radius: 6px;
+            padding: 30px 26px 26px;
+            transition: transform .2s ease, box-shadow .2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 0 rgba(27, 36, 32, 0.08);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 22px;
+            right: -1px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--paper);
+            border: 1px solid var(--line);
+            box-shadow: -300px 0 0 -1px transparent;
+        }
+
+        .card-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--copper);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 14px;
+        }
+
+        .card.featured {
+            background: var(--pcb-deep);
+            color: var(--paper);
+            border-color: var(--pcb);
+        }
+
+        .card.featured .card-num {
+            color: var(--amber);
+        }
+
+        .card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            font-size: 14.5px;
+            color: var(--ink-soft);
+            margin-bottom: 24px;
+        }
+
+        .card.featured p {
+            color: rgba(231, 228, 216, 0.72);
+        }
+
+        .card .btn {
+            width: 100%;
+            justify-content: center;
+        }
+
+        .card-dash {
+            border-top: 1px dashed var(--line);
+            margin: 0 0 20px;
+        }
+
+        .card.featured .card-dash {
+            border-top: 1px dashed var(--line-on-dark);
+        }
+
+        /* ---------- FOOTER ---------- */
+        footer {
+            background: var(--pcb);
+            color: rgba(231, 228, 216, 0.75);
+            padding: 48px 0 32px;
+            border-top: 1px solid var(--pcb-deep);
+        }
+
+        footer .wrap {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 24px;
+        }
+
+        footer .f-brand {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 700;
+            color: var(--paper);
+            font-size: 16px;
+        }
+
+        footer .f-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11.5px;
+            margin-top: 6px;
+            color: rgba(231, 228, 216, 0.5);
+        }
+
+        footer .f-links {
+            display: flex;
+            gap: 24px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        footer .f-links a {
+            text-decoration: none;
+            color: rgba(231, 228, 216, 0.7);
+        }
+
+        footer .f-links a:hover {
+            color: var(--solder-bright);
+        }
+
+        footer .f-bottom {
+            margin-top: 36px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(231, 228, 216, 0.12);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: rgba(231, 228, 216, 0.4);
+        }
+
+        footer .f-bottomu {
+            margin-top: 26px;
+            margin-left: 28px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(231, 228, 216, 0.12);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 16px;
+            color: whitesmoke;
+
+        }
+
+        footer .f-bottomn {
+            margin-top: 26px;
+            margin-left: 28px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(231, 228, 216, 0.12);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: rgba(231, 228, 216, 0.4);
+        }
+
+
+
+
+        /* scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity .6s ease, transform .6s ease;
+        }
+
+        .reveal.in {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="site">
+        <nav class="nav">
+            <div class="brand">
+                <div class="brand-mark">CTL</div>
+                <div class="brand-name">Community Tech Library</div>
+            </div>
+            <div class="nav-links">
+                <a href="#how">How it Works</a>
+                <a href="#involve">Get Involved</a>
+                <a href="#survey">Survey</a>
+            </div>
+            <a class="nav-cta" href="#survey">Fill Survey</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="wrap">
+            <div>
+                <span class="eyebrow mono">Local e-waste initiative</span>
+                <h1>Don't trash it. <em>Share it.</em></h1>
+                <p class="lede">A community-run library that turns idle laptops, tablets and chargers sitting in your
+                    cupboard into learning tools for students nearby — and turns the dead ones into DIY STEM kits
+                    instead of landfill.</p>
+                <div class="hero-ctas">
+                    <a class="btn btn-primary" href="#survey">Fill Survey Form →</a>
+                    <a class="btn btn-ghost" href="#how">See How It Works</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="num">6-Step</div>
+                        <div class="lab mono">Tracked device journey</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">100%</div>
+                        <div class="lab mono">Data wipe before reuse</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="num">Grade A/B</div>
+                        <div class="lab mono">Condition-rated listings</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tag-hero">
+                <div class="tag-string"></div>
+                <div class="tag-hole"></div>
+                <div class="tag-card">
+                    <div class="tag-row">
+                        <span>Asset Tag</span>
+                        <span>CTL-001</span>
+                    </div>
+                    <div class="grade-stamp">
+                        <span class="letter">A</span>
+                        <span class="sub">CERTIFIED</span>
+                    </div>
+                    <h4>Fully functional</h4>
+                    <p>Inspected · Wiped · Ready to lend to a student in your neighbourhood</p>
+                    <div class="tag-perf">
+                        <span>Library Hub</span>
+                        <span>Rented</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="how" id="how">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="kicker mono">How it works</span>
+                <h2>Every device gets a paper trail</h2>
+                <p>From the moment you drop off a gadget to the moment its parts end up in a student's STEM kit, here's
+                    exactly what happens to it.</p>
+            </div>
+
+            <div class="conveyor">
+                <div class="step reveal">
+                    <div class="step-stamp mono">1</div>
+                    <div class="step-body">
+                        <div>
+                            <h3>Unused tech submission</h3>
+                            <p>Bring working gadgets — tablets, chargers, adapters — straight to Tech Library counters
+                                set up in local Schools, Colleges and RWAs. No travelling across town.</p>
+                        </div>
+                        <span class="step-tag">Drop-off</span>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-stamp mono">2</div>
+                    <div class="step-body">
+                        <div>
+                            <h3>Condition rating &amp; quality check</h3>
+                            <p>Our technical team inspects the device's physical condition and estimated lifespan, then
+                                assigns a Condition Rating — Grade A for near-new, Grade B for fully functional.</p>
+                        </div>
+                        <span class="step-tag">Inspection</span>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-stamp mono">3</div>
+                    <div class="step-body">
+                        <div>
+                            <h3>Rental listing &amp; owner incentives</h3>
+                            <p>The inspected gadget goes into the short-term rental catalog for students and community
+                                members. Every time it's rented out, the original owner earns rewards.</p>
+                        </div>
+                        <span class="step-tag">Listing</span>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-stamp mono">4</div>
+                    <div class="step-body">
+                        <div>
+                            <h3>Mandatory data wiping</h3>
+                            <p>Every device undergoes a mandatory 100% data-wiping protocol before it's handed out —
+                                zero data security risk, guaranteed, no exceptions.</p>
+                        </div>
+                        <span class="step-tag">Privacy</span>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-stamp mono">5</div>
+                    <div class="step-body">
+                        <div>
+                            <h3>Dead tech collection</h3>
+                            <p>Completely dead, broken or unrepairable electronics don't go in the trash — they go into
+                                neighbourhood Green Drop Boxes instead.</p>
+                        </div>
+                        <span class="step-tag">Recovery</span>
+                    </div>
+                </div>
+
+                <div class="step reveal">
+                    <div class="step-stamp mono">6</div>
+                    <div class="step-body">
+                        <div>
+                            <h3>Harvesting &amp; DIY STEM kits</h3>
+                            <p>Local repair mechanics salvage usable micro-components — motors, LEDs, switches, wires —
+                                and repurpose them into low-cost DIY STEM kits for underprivileged students.</p>
+                        </div>
+                        <span class="step-tag">Reuse</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="involve" id="involve">
+        <div class="wrap">
+            <div class="section-head reveal">
+                <span class="kicker mono">Get involved</span>
+                <h2>Three ways to plug in</h2>
+                <p>Whether your gadgets still work, still power on, or gave up years ago — there's a next step for them
+                    here.</p>
+            </div>
+
+            <div class="cards">
+                <div class="card featured reveal" id="survey">
+                    <span class="card-num mono">01 · Main focus</span>
+                    <h3>Take the E-Waste &amp; Tech Survey</h3>
+                    <div class="card-dash"></div>
+                    <p>Help us measure local e-waste and design a better Tech Library for your community. Five minutes,
+                        no login.</p>
+                    <a class="btn btn-primary" href="https://forms.gle/hEUY8Xc5zmjrgB9S9"
+                        style="background:var(--amber-deep); border-color:var(--amber-deep);">Fill Survey Form →</a>
+                </div>
+
+                <div class="card reveal" id="pledge">
+                    <span class="card-num mono">02 · Pledge</span>
+                    <h3>Share Your Idle Tech</h3>
+                    <div class="card-dash"></div>
+                    <p>Got working gadgets sitting in a drawer at home? Register your interest to lend or donate them to
+                        the library.</p>
+                    <a class="btn btn-ghost" href="#pledge">Express Interest to Share →</a>
+                </div>
+
+                <div class="card reveal" id="dropbox">
+                    <span class="card-num mono">03 · Recycle</span>
+                    <h3>Drop Off Dead Tech</h3>
+                    <div class="card-dash"></div>
+                    <p>Non-working tech or a tangle of broken wires? Locate your nearest Green Drop Box collection hub.
+                    </p>
+                    <a class="btn btn-ghost" href="#dropbox">Find Nearest Green Drop Box →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="wrap">
+            <div>
+                <div class="f-brand">Community Tech Library</div>
+                <div class="f-tag mono">Don't trash it, share it.</div>
+            </div>
+            <div class="f-links">
+                <a href="#how">How it Works</a>
+                <a href="#involve">Get Involved</a>
+                <a href="https://forms.gle/hEUY8Xc5zmjrgB9S9">Survey</a>
+            </div>
+            <div class="f-brand">Abhinav & Yatin</div>
+            <p class="f-tag mono">For academic purposes only.</p>
+        </div>
+        <div class="wrap f-bottom">A local initiative turning idle household electronics into accessible learning tools.
+        </div>
+
+
+
+    </footer>
+
+    <script>
+        const obs = new IntersectionObserver((entries) => {
+            entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+    </script>
+
+</body>
+
+</html>
